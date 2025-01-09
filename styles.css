@@ -1,0 +1,195 @@
+:root {
+    --primary: #007AFF;      /* Apple Blue */
+    --secondary: #FF2D55;    /* Apple Pink */
+    --dark: #000000;        /* True Black */
+    --light: #FFFFFF;       /* Pure White */
+    --card: rgba(28, 28, 30, 0.9); /* Dark Card with transparency */
+    --button-bg: rgba(255, 255, 255, 0.1);
+    --button-hover: rgba(255, 255, 255, 0.2);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--dark);
+    color: var(--light);
+}
+
+.container {
+    text-align: center;
+    background: var(--card);
+    padding: 3rem;
+    border-radius: 20px;
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 90%;
+    width: 400px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--light);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.timer {
+    font-size: 5.5rem;
+    font-weight: 500;
+    margin: 2.5rem 0;
+    letter-spacing: -2px;
+    font-feature-settings: "tnum";
+    color: var(--light);
+}
+
+.controls {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.controls button {
+    font-size: 1rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 12px;
+    border: none;
+    background: var(--button-bg);
+    color: var(--light);
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+    min-width: 100px;
+}
+
+.controls button:hover {
+    background: var(--button-hover);
+}
+
+#start {
+    background: var(--primary);
+}
+
+#start:hover {
+    background: #0066D6;
+}
+
+#reset {
+    background: #FF3B30;  /* Apple's red color */
+    color: white;
+}
+
+#reset:hover {
+    background: #D70015;  /* Darker red on hover */
+}
+
+#pause {
+    background: var(--button-bg);
+}
+
+#pause:hover {
+    background: var(--button-hover);
+}
+
+.mode-switch {
+    margin-top: 2rem;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 40px;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    height: 32px;
+    width: 96px;
+    left: 4px;
+    bottom: 4px;
+    background: var(--primary);
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input:checked + .slider:before {
+    transform: translateX(96px);
+    background: var(--secondary);
+}
+
+.work, .break {
+    font-size: 15px;
+    font-weight: 500;
+    z-index: 1;
+    padding: 0 16px;
+    transition: color 0.3s ease;
+}
+
+input:not(:checked) ~ .slider .work,
+input:checked ~ .slider .break {
+    color: var(--light);
+}
+
+input:checked ~ .slider .work,
+input:not(:checked) ~ .slider .break {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 2rem;
+    }
+    
+    .timer {
+        font-size: 4rem;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .controls button {
+        width: 100%;
+    }
+}
+
+.quote-container {
+    margin: 1.5rem 0;
+    min-height: 60px; /* Prevents layout shift when quotes change */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quote-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    line-height: 1.4;
+    transition: opacity 0.3s ease;
+}
+ 
