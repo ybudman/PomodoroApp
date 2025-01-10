@@ -9,6 +9,13 @@ const pauseButton = document.getElementById('pause');
 const resetButton = document.getElementById('reset');
 const toggleCheckbox = document.getElementById('toggle-mode');
 
+const FULL_DASH_ARRAY = 2 * Math.PI * 135; // Updated for new radius (135)
+const circle = document.querySelector('.progress-ring__circle');
+
+// Set the initial properties of the circle
+circle.style.strokeDasharray = `${FULL_DASH_ARRAY} ${FULL_DASH_ARRAY}`;
+circle.style.strokeDashoffset = FULL_DASH_ARRAY;
+
 const quotes = [
     "The only way to do great work is to love what you do.",
     "It always seems impossible until it's done.",
@@ -29,11 +36,10 @@ const quotes = [
 
 let quoteInterval;
 
-function updateTitle() {
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    document.title = `${timeString} - Pomodoro Timer`;
+function setProgress(timeLeft, totalTime) {
+    const progress = timeLeft / totalTime;
+    const dashOffset = FULL_DASH_ARRAY * (1 - progress);
+    circle.style.strokeDashoffset = dashOffset;
 }
 
 function updateDisplay() {
@@ -42,7 +48,18 @@ function updateDisplay() {
     
     minutesDisplay.textContent = minutes.toString().padStart(2, '0');
     secondsDisplay.textContent = seconds.toString().padStart(2, '0');
+    
+    // Update the circle
+    setProgress(timeLeft, isWorkTime ? 25 * 60 : 5 * 60);
+    
     updateTitle();
+}
+
+function updateTitle() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    document.title = `${timeString} - Pomodoro Timer`;
 }
 
 function startTimer() {

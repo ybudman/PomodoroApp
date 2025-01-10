@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,8 +10,19 @@
 <body>
     <div class="container">
         <h1>Pomodoro Timer</h1>
-        <div class="timer">
-            <span id="minutes">25</span>:<span id="seconds">00</span>
+        <div class="timer-container">
+            <div class="timer">
+                <span id="minutes">25</span>:<span id="seconds">00</span>
+            </div>
+            <svg class="progress-ring" width="300" height="300">
+                <circle class="progress-ring__circle" 
+                        stroke="var(--primary)" 
+                        stroke-width="6"
+                        fill="transparent"
+                        r="135" 
+                        cx="150" 
+                        cy="150"/>
+            </svg>
         </div>
         <div class="quote-container">
             <p id="quote" class="quote-text"></p>
