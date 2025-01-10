@@ -9,12 +9,14 @@ const pauseButton = document.getElementById('pause');
 const resetButton = document.getElementById('reset');
 const toggleCheckbox = document.getElementById('toggle-mode');
 
-const FULL_DASH_ARRAY = 2 * Math.PI * 135; // Updated for new radius (135)
+const FULL_DASH_ARRAY = 2 * Math.PI * 135; // Back to radius 135
 const circle = document.querySelector('.progress-ring__circle');
 
 // Set the initial properties of the circle
 circle.style.strokeDasharray = `${FULL_DASH_ARRAY} ${FULL_DASH_ARRAY}`;
 circle.style.strokeDashoffset = FULL_DASH_ARRAY;
+
+setProgress(timeLeft, isWorkTime ? 25 * 60 : 5 * 60);
 
 const quotes = [
     "The only way to do great work is to love what you do.",
@@ -105,6 +107,14 @@ function resetTimer() {
 toggleCheckbox.addEventListener('change', () => {
     isWorkTime = !toggleCheckbox.checked;
     timeLeft = isWorkTime ? 25 * 60 : 5 * 60;
+    
+    // Remove existing tick marks
+    const tickMarks = document.querySelectorAll('.tick-mark');
+    tickMarks.forEach(tick => tick.remove());
+    
+    // Create new tick marks
+    createTickMarks();
+    
     updateDisplay();
     
     if (timerId !== null) {
@@ -130,3 +140,36 @@ function updateQuote() {
         quoteElement.style.opacity = 1;
     }, 300);
 } 
+
+function createTickMarks() {
+    const tickGroup = document.querySelector('.tick-marks');
+    // Clear existing ticks
+    tickGroup.innerHTML = '';
+    
+    const totalSeconds = isWorkTime ? 25 * 60 : 5 * 60;
+    const radius = 135;
+    
+    for (let i = 0; i < totalSeconds; i++) {
+        const angle = (i * 360) / totalSeconds;
+        const tickLength = i % 60 === 0 ? 12 : 6; // Shorter ticks for better appearance
+        
+        const x1 = 150 + (radius - tickLength) * Math.cos((angle - 90) * Math.PI / 180);
+        const y1 = 150 + (radius - tickLength) * Math.sin((angle - 90) * Math.PI / 180);
+        const x2 = 150 + radius * Math.cos((angle - 90) * Math.PI / 180);
+        const y2 = 150 + radius * Math.sin((angle - 90) * Math.PI / 180);
+        
+        const tick = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        tick.setAttribute('x1', x1);
+        tick.setAttribute('y1', y1);
+        tick.setAttribute('x2', x2);
+        tick.setAttribute('y2', y2);
+        tick.setAttribute('class', i % 60 === 0 ? 'tick-mark minute' : 'tick-mark');
+        
+        tickGroup.appendChild(tick);
+    }
+}
+
+// Make sure to call this when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    createTickMarks();
+}); 
